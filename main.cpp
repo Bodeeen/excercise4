@@ -34,9 +34,9 @@ void init()
                lookat, // look at origin
                vec3(0, 1, 0));  // Head is up
 
-    P = perspective(45.0f, (GLfloat) window_width / (GLfloat) window_height, 0.1f, 100.0f);
+    P = perspective(45.0f, (GLfloat) window_width / (GLfloat) window_height, 0.1f, 10.0f);
 
-    MVP = V*M;
+    MVP = P*V*M;
     // Your OpenGL settings, such as alpha, depth and others, should be
     // defined here! For the assignment, we only ask you to enable the
     // alpha channel.
@@ -59,10 +59,10 @@ void KeyboardCallback(unsigned char key, int x, int y)
         glutLeaveMainLoop();
         break;
       case 49:
-        vpos = vec3(vpos.x, vpos.y, vpos.z+0.01f);
+        vpos = vec3(vpos.x, vpos.y, vpos.z+0.05f);
         break;
       case 50:
-        vpos = vec3(vpos.x, vpos.y, vpos.z-0.01f);
+        vpos = vec3(vpos.x, vpos.y, vpos.z-0.05f);
         break;
     }
     printf("Moving\nNew position %f, %f, %f\n", vpos[0], vpos[1], vpos[2] );
@@ -70,7 +70,7 @@ void KeyboardCallback(unsigned char key, int x, int y)
                vpos, // camera position
                lookat, // look at origin
                vec3(0, 1, 0));  // Head is up
-    MVP = V*M;
+    MVP = P*V*M;
 }
 
 

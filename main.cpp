@@ -18,6 +18,7 @@ void init()
     glGenVertexArrays(1, &g_default_vao);
     glBindVertexArray(g_default_vao);
 
+
     // Set the background color (RGBA)
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 
@@ -65,7 +66,7 @@ void KeyboardCallback(unsigned char key, int x, int y)
         vpos = vec3(vpos.x, vpos.y, vpos.z-0.05f);
         break;
     }
-    printf("Moving\nNew position %f, %f, %f\n", vpos[0], vpos[1], vpos[2] );
+    //printf("Moving\nNew position %f, %f, %f\n", vpos[0], vpos[1], vpos[2] );
     V = lookAt(
                vpos, // camera position
                lookat, // look at origin
@@ -73,7 +74,30 @@ void KeyboardCallback(unsigned char key, int x, int y)
     MVP = P*V*M;
 }
 
-
+void SpecialInput(int key, int x, int y)
+{
+  switch(key)
+  {
+    case GLUT_KEY_UP:
+      vpos = vec3(vpos.x, vpos.y+0.05f, vpos.z);
+      break;
+    case GLUT_KEY_DOWN:
+      vpos = vec3(vpos.x, vpos.y-0.05f, vpos.z);
+      break;
+    case GLUT_KEY_LEFT:
+      //do
+      break;
+    case GLUT_KEY_RIGHT:
+      //do
+      break;
+  }
+  printf("Moving\nNew position %f, %f, %f\n", vpos[0], vpos[1], vpos[2] );
+  V = lookAt(
+             vpos, // camera position
+             lookat, // look at origin
+             vec3(0, 1, 0));  // Head is up
+  MVP = P*V*M;
+}
 void display()
 {
     // Clear the screen
@@ -90,7 +114,8 @@ void display()
     // queue, but this is only for single-buffered rendering. You
     // must replace this function following the previous indications.
 
-    glutSolidSphere(0.2f, 100 , 100);
+    glutWireSphere(0.2f, 20 , 20);
+    glutSolidSphere(0.2f, 20 , 20);
     glutSwapBuffers();
     glutPostRedisplay();
 }
@@ -115,7 +140,7 @@ int main(int argc, char **argv)
     // glutIdleFunc( ... );
     // glutReshapeFunc( ... );
     glutKeyboardFunc(KeyboardCallback);
-    // glutSpecialFunc( ... );
+    glutSpecialFunc(SpecialInput);
     // glutMouseFunc( ... );
     // glutMotionFunc( ... );
 
@@ -127,7 +152,8 @@ int main(int argc, char **argv)
 
     // Display OpenGL information
     util::displayOpenGLInfo();
-
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // Initialize the 3D view
     init();
 

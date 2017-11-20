@@ -6,7 +6,7 @@ using namespace std;
 using namespace glm;
 using namespace agp;
 
-#define NUM_PARTICLES 300
+#define NUM_PARTICLES 100
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
@@ -64,7 +64,7 @@ void UpdatePos()
   for(int i = 0; i < NUM_PARTICLES; i++)
   {
     vec3 motion_upd = vec3(((float)(rand() % 10)-4.5f)/100.0f, ((float)(rand() % 10)-4.5f)/100.0f, ((float)(rand() % 10)-4.5f)/100.0f);
-    float scaled_inertia = 0.8f + 0.2*sizes[i]*inertia;
+    float scaled_inertia = 0.5f + 0.5*sizes[i]*inertia;
     m = scaled_inertia*motion[i] + (1.0f-scaled_inertia)*motion_upd;
     particles[i] = particles[i] + m;
     motion[i] = m;
